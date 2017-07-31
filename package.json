@@ -26,6 +26,7 @@
     "babel-preset-stage-0": "^6.24.1"
   },
   "scripts": {
+    "start": "node app.js",
     "build": "./node_modules/.bin/webpack --progress --display-error-details --colors --optimize-minimize"
   }
 }
