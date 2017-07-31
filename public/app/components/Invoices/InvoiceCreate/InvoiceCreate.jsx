@@ -1,6 +1,6 @@
 import React from "react"
 import InvoiceForm from "./InvoiceForm"
-import {invoiceCreate} from "../../../actions/invoices/invoices"
+import Api from "../../../utils/api"
 import styled from "styled-components"
 
 const ButtonCreate = styled.button`
@@ -22,7 +22,7 @@ export default class InvoiceCreate extends React.Component {
   }
 
   async showInvoiceForm() {
-      const {id} = await invoiceCreate()
+      const {id} = await Api.post("invoices")
 
       this.setState({
            invoice_id: id,

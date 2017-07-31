@@ -1,30 +1,41 @@
 import React from "react"
 import moment from "moment"
 import PropTypes from "prop-types"
+import {Link} from "react-router"
 
-export default class InvoiceItem extends React.Component {
+export default class CustomerItem extends React.Component {
 
     static propTypes = {
         item: PropTypes.object.isRequired,
         index: PropTypes.number.isRequired,
-        invoiceDelete: PropTypes.func.isRequired,
+        itemDelete: PropTypes.func.isRequired,
     }
 
     render () {
-        const {item, invoiceDelete, index} = this.props
+        const {item, itemDelete, index} = this.props
         return (
             <tr>
                 <th scope="row">{item.id}</th>
+                <td>{item.name}</td>
+                <td>{item.address}</td>
+                <td>{item.phone}</td>
                 <td>{moment(item.createdAt).format("LLL")}</td>
                 <td>{moment(item.updatedAt).format("LLL")}</td>
-                <td>{item.total || 0}</td>
-                <td>{`${item.discount || 0}%`}</td>
+                <td>
+                    <Link
+                        className="btn btn-success"
+                        data-index={index}
+                        to={`/customers/${item.id}/edit`}
+                    >
+                        Edit
+                    </Link>
+                </td>
                 <td>
                     <button
                         type="button"
                         className="btn btn-danger"
                         data-index={index}
-                        onClick={invoiceDelete}
+                        onClick={itemDelete}
                     >
                         Delete
                     </button>

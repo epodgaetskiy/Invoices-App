@@ -1,11 +1,10 @@
 import React from "react"
 import PropTypes from "prop-types"
-import {invoiceEdit, invoiceItemCreate, invoiceItemEdit, invoiceItemDelete} from "../../../actions/invoices/invoices"
+import Api from "../../../utils/api"
+import {invoiceItemCreate, invoiceItemEdit, invoiceItemDelete} from "../../../actions/invoices/invoices"
 import InvoiceItem from "./InvoiceItem"
 import CustomerCreate from "../../Customers/CustomerCreate"
 import ProductCreate from "../../Products/ProductCreate"
-import {getCustomers} from "../../../actions/customers/customers"
-import {getProducts} from "../../../actions/products/products"
 
 export default class InvoiceForm extends React.Component {
 
@@ -31,8 +30,8 @@ export default class InvoiceForm extends React.Component {
 
     async componentDidMount() {
 
-      const customers = await getCustomers()
-      const products = await getProducts()
+      const customers = await Api.get("customers")
+      const products = await Api.get("products")
 
       this.setState({
           customers,
@@ -68,7 +67,7 @@ export default class InvoiceForm extends React.Component {
           total: this.getTotal(this.state.invoiceItems, payload.discount)
       }
 
-      await invoiceEdit(payload, this.props.invoice_id)
+      await Api.put("invoices", payload, this.props.invoice_id)
 
       this.setState({
           invoice: {...payload}
@@ -99,7 +98,7 @@ export default class InvoiceForm extends React.Component {
           ...this.state.invoice,
           total:  this.getTotal(invoiceItems, this.state.invoice.discount)
       }
-      return await invoiceEdit(invoicePayload, this.props.invoice_id)
+      return await Api.put("invoices", invoicePayload, this.props.invoice_id)
     }
 
     updateInvoiceItem = async (product_id, quantity, invoice_item_id) => {

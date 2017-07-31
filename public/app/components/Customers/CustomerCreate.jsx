@@ -1,7 +1,7 @@
 import React from "react"
 import CustomerForm from "./CustomerForm"
 import styled from "styled-components"
-import {customerCreate, customerEdit} from "../../actions/customers/customers"
+import Api from "../../utils/api"
 import PropTypes from "prop-types"
 
 const WrapperModal = styled.div`
@@ -16,6 +16,12 @@ const ButtonOpen = styled.button`
     margin-top: 25px;
 `
 
+const initialValuesCustomer = {
+    name: "",
+    address: "",
+    phone: ""
+}
+
 export default class CustomerCreate extends React.Component {
 
     static propTypes = {
@@ -23,8 +29,8 @@ export default class CustomerCreate extends React.Component {
     }
 
     onSubmit = async (customer) => {
-        const {id} = await customerCreate()
-        const item = await customerEdit(customer, id)
+        const {id} = await Api.post("customers")
+        const item = await Api.put("customers", customer, id)
         this.props.itemAddToList(item, "customers")
         $(".customer-form").modal("hide")
     }
@@ -48,7 +54,11 @@ export default class CustomerCreate extends React.Component {
                 >
                     <WrapperModal className="modal-dialog modal-xs" role="document">
                         <WrapperModalContent className="modal-content">
-                            <CustomerForm onSubmit={this.onSubmit} />
+                            <CustomerForm
+                                initialValues={initialValuesCustomer}
+                                onSubmit={this.onSubmit}
+                                textSubmit="Customer create"
+                            />
                         </WrapperModalContent>
                     </WrapperModal>
                 </div>

@@ -40,7 +40,7 @@ export default class InvoiceItem extends React.Component {
                     <div className="col-xs-2">
                         <button
                             type="button"
-                            className="btn btn-info"
+                            className="btn btn-danger"
                             data-index={index}
                             data-id={item.invoice_item_id}
                             onClick={productDelete}

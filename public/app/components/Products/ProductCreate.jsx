@@ -1,7 +1,7 @@
 import React from "react"
 import ProductForm from "./ProductForm"
 import styled from "styled-components"
-import {productCreate, productEdit} from "../../actions/products/products"
+import Api from "../../utils/api"
 import PropTypes from "prop-types"
 
 const WrapperModal = styled.div`
@@ -16,6 +16,11 @@ const ButtonOpen = styled.button`
     margin-top: 25px;
 `
 
+const initialValuesProduct = {
+    name: "",
+    price: 0
+}
+
 export default class ProductCreate extends React.Component {
 
     static propTypes = {
@@ -23,8 +28,8 @@ export default class ProductCreate extends React.Component {
     }
 
     onSubmit = async (product) => {
-        const {id} = await productCreate()
-        const item = await productEdit(product, id)
+        const {id} = await Api.post("products")
+        const item = await Api.put("products", product, id)
         this.props.itemAddToList(item, "products")
         $(".product-form").modal("hide")
     }
@@ -48,7 +53,11 @@ export default class ProductCreate extends React.Component {
                 >
                     <WrapperModal className="modal-dialog modal-xs" role="document">
                         <WrapperModalContent className="modal-content">
-                            <ProductForm onSubmit={this.onSubmit} />
+                            <ProductForm
+                                initialValues={initialValuesProduct}
+                                onSubmit={this.onSubmit}
+                                textSubmit="Product create"
+                            />
                         </WrapperModalContent>
                     </WrapperModal>
                 </div>

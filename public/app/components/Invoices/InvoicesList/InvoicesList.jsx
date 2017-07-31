@@ -1,5 +1,5 @@
 import React from "react"
-import {getInvoices, invoiceDelete} from "../../../actions/invoices/invoices"
+import Api from "../../../utils/api"
 import InvoiceItem from "./InvoiceItem"
 
 export default class InvoiceList extends React.Component {
@@ -14,7 +14,7 @@ export default class InvoiceList extends React.Component {
   }
 
   async componentDidMount() {
-      const invoices = await getInvoices()
+      const invoices = await Api.get("invoices")
       this.setState({
           invoices,
           isLoadingInvoices: true
@@ -23,7 +23,7 @@ export default class InvoiceList extends React.Component {
 
   invoiceDelete = async (e) => {
       const index = e.target.getAttribute("data-index")
-      await invoiceDelete(this.state.invoices[index].id)
+      await Api.delete("invoices", this.state.invoices[index].id)
 
       const invoices = [...this.state.invoices]
 
@@ -36,7 +36,7 @@ export default class InvoiceList extends React.Component {
 
   render() {
     return (
-        this.state.invoices.length > 0 &&
+        this.state.invoices.length > 0 ?
             <div className="row">
                 <div className="col-xs-12">
                     <table className="table table-striped">

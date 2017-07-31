@@ -5,14 +5,16 @@ export default class ProductForm extends React.Component {
 
     static propTypes = {
         onSubmit: PropTypes.func.isRequired,
+        textSubmit: PropTypes.string.isRequired,
+        initialValues: PropTypes.object.isRequired,
     }
 
     constructor(props) {
         super(props)
 
         this.state = {
-            name: "",
-            price: 0,
+            name: props.initialValues.name,
+            price: props.initialValues.price,
         }
     }
 
@@ -50,7 +52,7 @@ export default class ProductForm extends React.Component {
                         min={0}
                     />
                 </div>
-                <button type="button" className="btn btn-primary" onClick={this.onSubmit}>Product Create</button>
+                <button type="button" className="btn btn-primary" onClick={this.onSubmit}>{this.props.textSubmit}</button>
             </div>
         )
     }

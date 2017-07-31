@@ -5,15 +5,17 @@ export default class CustomerForm extends React.Component {
 
     static propTypes = {
         onSubmit: PropTypes.func.isRequired,
+        textSubmit: PropTypes.string.isRequired,
+        initialValues: PropTypes.object.isRequired,
     }
 
     constructor(props) {
         super(props)
 
         this.state = {
-            name: "",
-            address: "",
-            phone: ""
+            name: props.initialValues.name,
+            address: props.initialValues.address,
+            phone: props.initialValues.phone
         }
     }
 
@@ -60,7 +62,7 @@ export default class CustomerForm extends React.Component {
                         onChange={this.onChange("phone")}
                     />
                 </div>
-                <button type="button" className="btn btn-primary" onClick={this.onSubmit}>Customer Create</button>
+                <button type="button" className="btn btn-primary" onClick={this.onSubmit}>{this.props.textSubmit}</button>
             </div>
         )
     }
