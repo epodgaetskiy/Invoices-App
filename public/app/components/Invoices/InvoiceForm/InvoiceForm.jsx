@@ -83,11 +83,11 @@ export default class InvoiceForm extends React.Component {
           total: this.getTotal(this.state.invoiceItems, payload.discount)
       }
 
-      await Api.put("invoices", payload, this.props.invoice_id)
-
       this.setState({
           invoice: {...payload}
       })
+
+      await Api.put("invoices", payload, this.props.invoice_id)
 
     }
 
@@ -97,11 +97,14 @@ export default class InvoiceForm extends React.Component {
       const invoiceItems = [...this.state.invoiceItems]
       invoiceItems[index].quantity = e.target.value
 
+      this.setState({
+          invoiceItems
+      })
+
       await this.updateInvoiceItem(invoiceItems[index].product_id, e.target.value, invoiceItems[index].id)
       const {total} = await this.updateInvoiceTotal(invoiceItems)
 
       this.setState(prevState => ({
-          invoiceItems,
           invoice: {
               ...prevState.invoice,
               total
@@ -132,7 +135,7 @@ export default class InvoiceForm extends React.Component {
       const product = JSON.parse(e.target.value)
       const {id} = await invoiceItemCreate(this.props.invoice_id)
 
-      await this.updateInvoiceItem(product.id, 1, id)
+
 
       const invoiceItem = {
           id,
@@ -145,10 +148,13 @@ export default class InvoiceForm extends React.Component {
       const invoiceItems = [...this.state.invoiceItems]
       invoiceItems.push(invoiceItem)
 
+      this.setState({
+          invoiceItems
+      })
+      await this.updateInvoiceItem(product.id, 1, id)
       const {total} = await this.updateInvoiceTotal(invoiceItems)
 
       this.setState(prevState => ({
-          invoiceItems,
           invoice: {
               ...prevState.invoice,
               total
@@ -160,14 +166,17 @@ export default class InvoiceForm extends React.Component {
       const index = e.target.getAttribute("data-index")
       const invoice_item_id = e.target.getAttribute("data-id")
 
-      await invoiceItemDelete(this.props.invoice_id, invoice_item_id)
-
       const invoiceItems = [...this.state.invoiceItems]
       invoiceItems.splice(index, 1)
 
+      this.setState({
+         invoiceItems
+      })
+
+      await invoiceItemDelete(this.props.invoice_id, invoice_item_id)
+
       const {total} = await this.updateInvoiceTotal(invoiceItems)
       this.setState(prevState => ({
-          invoiceItems,
           invoice: {
               ...prevState.invoice,
               total
