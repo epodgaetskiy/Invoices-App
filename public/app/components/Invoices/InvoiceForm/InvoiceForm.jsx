@@ -23,7 +23,6 @@ export default class InvoiceForm extends React.Component {
           invoice: props.invoice,
           invoiceItems: props.invoiceItems
       }
-
     }
 
     async componentDidMount() {
@@ -196,8 +195,12 @@ export default class InvoiceForm extends React.Component {
                 </div>
                 <div className="col-xs-3">
                     <label htmlFor="customer">Customers List</label>
-                    <select className="form-control" onChange={this.onChangeInvoice("customer_id")}>
-                        <option>Choose customer</option>
+                    <select
+                        className="form-control"
+                        value={this.state.invoice.customer_id || 0}
+                        onChange={this.onChangeInvoice("customer_id")}
+                    >
+                        <option value={0}>Choose customer</option>
                         {this.state.customers.length > 0 && this.state.customers.map(customer => {
                             return (
                                 <option key={customer.id} value={customer.id}>{customer.name}</option>
