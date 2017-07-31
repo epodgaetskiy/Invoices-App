@@ -48,6 +48,7 @@ export default class InvoiceList extends React.Component {
                                 <th>Total</th>
                                 <th>Discount</th>
                                 <th></th>
+                                <th></th>
                             </tr>
                         </thead>
                         <tbody>

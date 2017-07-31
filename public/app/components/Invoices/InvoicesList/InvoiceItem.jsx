@@ -1,6 +1,7 @@
 import React from "react"
 import moment from "moment"
 import PropTypes from "prop-types"
+import {Link} from "react-router"
 
 export default class InvoiceItem extends React.Component {
 
@@ -19,6 +20,15 @@ export default class InvoiceItem extends React.Component {
                 <td>{moment(item.updatedAt).format("LLL")}</td>
                 <td>{item.total || 0}</td>
                 <td>{`${item.discount || 0}%`}</td>
+                    <td>
+                        <Link
+                            type="button"
+                            className="btn btn-success"
+                            to={`/invoices/${item.id}/edit`}
+                        >
+                            Edit
+                        </Link>
+                    </td>
                 <td>
                     <button
                         type="button"

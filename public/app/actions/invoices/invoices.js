@@ -16,7 +16,7 @@ export const invoiceItemCreate = async (id) => {
 
 export const invoiceItemEdit = async (payload, invoice_id, id) => {
     try {
-        const response = await fetch(`/api/invoices/${id}/items/${id}`, {
+        const response = await fetch(`/api/invoices/${invoice_id}/items/${id}`, {
             method: "PUT",
             headers: {
               'Accept': 'application/json',
@@ -33,8 +33,20 @@ export const invoiceItemEdit = async (payload, invoice_id, id) => {
 
 export const invoiceItemDelete = async (invoice_id, id) => {
     try {
-        const response = await fetch(`/api/invoices/${id}/items/${id}`, {
-            method: "DELETE"
+        const response = await fetch(`/api/invoices/${invoice_id}/items/${id}`, {
+            method: "DELETE",
+        })
+
+        return await response.json()
+    } catch (e) {
+        throw(e)
+    }
+}
+
+export const getInvoiceItems = async (invoice_id) => {
+    try {
+        const response = await fetch(`/api/invoices/${invoice_id}/items`, {
+            method: "GET"
         })
 
         return await response.json()
